@@ -1,0 +1,42 @@
+stages:
+  extract_data:
+    cmd: python pipeline/extract_data/extract_data.py
+    deps:
+    - pipeline/extract_data/extract_data.py
+    params:
+    - extract.test_samples
+    - extract.train_samples
+    outs:
+    - data/raw
+  prepare:
+    cmd: python pipeline/prepare/prepare.py data/raw/train.pkl data/raw/test.pkl
+    deps:
+    - data/raw/test.pkl
+    - data/raw/train.pkl
+    - pipeline/prepare/prepare.py
+    params:
+    - prepare.co_relation_threshold
+    outs:
+    - data/prepared
+  train:
+    cmd: python pipeline/train/train.py data/prepared/train.pkl
+    deps:
+    - data/prepared/train.pkl
+    - pipeline/train/train.py
+    params:
+    - train.fit_intercept
+    - train.normalize
+    - train.n_jobs
+    - train.copy_X
+    outs:
+    - model/Regression_checkpoints
+  evaluate:
+    cmd: python pipeline/evaluate/evaluate.py data/prepared/test.pkl model/Regression_checkpoints/best.pkl
+    deps:
+    - data/prepared/test.pkl
+    - model/Regression_checkpoints
+    - pipeline/evaluate/evaluate.py
+    params:
+    - evaluate.metrics
+    outs:
+    - results
