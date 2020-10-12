@@ -1,0 +1,6 @@
+numpy==1.18.0
+pyyaml
+pandas
+seaborn
+matplotlib
+sklearn

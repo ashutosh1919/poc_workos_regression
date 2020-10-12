@@ -1,0 +1,17 @@
+extract:
+  test_samples: 50
+  train_samples: 456
+
+prepare:
+  co_relation_threshold: .5
+
+train:
+  fit_intercept: True
+  normalize: False
+  n_jobs: 2
+  copy_X: True
+
+evaluate:
+  # All metrics are available
+  # "rsquare","mse","rmse","mae"
+  metrics: ["rsquare","mse","rmse","mae"]
